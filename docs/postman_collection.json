@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "Projeto Integrador — Produtos e fornecedores",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:3000/api" },
+    { "key": "product_id", "value": "1" },
+    { "key": "supplier_id", "value": "1" },
+    { "key": "association_id", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Saúde do servidor",
+      "request": { "method": "GET", "url": "{{base_url}}/health" }
+    },
+    {
+      "name": "Produtos",
+      "item": [
+        {
+          "name": "Cadastrar produto",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/products",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Café especial\",\n  \"description\": \"Pacote de 250 g\",\n  \"price\": 24.9,\n  \"barcode\": \"7891234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["if (pm.response.code === 201) pm.collectionVariables.set('product_id', pm.response.json().id);"] } }]
+        },
+        { "name": "Listar produtos", "request": { "method": "GET", "url": "{{base_url}}/products" } },
+        { "name": "Buscar produto", "request": { "method": "GET", "url": "{{base_url}}/products?q=Caf" } },
+        { "name": "Consultar produto", "request": { "method": "GET", "url": "{{base_url}}/products/{{product_id}}" } },
+        {
+          "name": "Atualizar produto",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/products/{{product_id}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Café especial\",\n  \"description\": \"Pacote de 500 g\",\n  \"price\": 39.9,\n  \"barcode\": \"7891234567890\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        { "name": "Consultar fornecedores do produto", "request": { "method": "GET", "url": "{{base_url}}/products/{{product_id}}/suppliers" } },
+        { "name": "Excluir produto", "request": { "method": "DELETE", "url": "{{base_url}}/products/{{product_id}}" } }
+      ]
+    },
+    {
+      "name": "Fornecedores",
+      "item": [
+        {
+          "name": "Cadastrar fornecedor",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/suppliers",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Distribuidora Horizonte\",\n  \"cnpj\": \"12.345.678/0001-95\",\n  \"address\": \"Rua das Flores, 120, São Paulo - SP\",\n  \"contact\": \"contato@horizonte.example\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["if (pm.response.code === 201) pm.collectionVariables.set('supplier_id', pm.response.json().id);"] } }]
+        },
+        { "name": "Listar fornecedores", "request": { "method": "GET", "url": "{{base_url}}/suppliers" } },
+        { "name": "Buscar fornecedor", "request": { "method": "GET", "url": "{{base_url}}/suppliers?q=Horizonte" } },
+        { "name": "Consultar fornecedor", "request": { "method": "GET", "url": "{{base_url}}/suppliers/{{supplier_id}}" } },
+        {
+          "name": "Atualizar fornecedor",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/suppliers/{{supplier_id}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Distribuidora Horizonte\",\n  \"cnpj\": \"12.345.678/0001-95\",\n  \"address\": \"Rua das Flores, 120, São Paulo - SP\",\n  \"contact\": \"(11) 99999-1111\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        { "name": "Consultar produtos do fornecedor", "request": { "method": "GET", "url": "{{base_url}}/suppliers/{{supplier_id}}/products" } },
+        { "name": "Excluir fornecedor", "request": { "method": "DELETE", "url": "{{base_url}}/suppliers/{{supplier_id}}" } }
+      ]
+    },
+    {
+      "name": "Associações",
+      "item": [
+        {
+          "name": "Associar produto e fornecedor",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/associations",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{product_id}},\n  \"supplierId\": {{supplier_id}}\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["if (pm.response.code === 201) pm.collectionVariables.set('association_id', pm.response.json().id);"] } }]
+        },
+        { "name": "Listar associações", "request": { "method": "GET", "url": "{{base_url}}/associations" } },
+        { "name": "Consultar associação", "request": { "method": "GET", "url": "{{base_url}}/associations/{{association_id}}" } },
+        { "name": "Filtrar associações por produto", "request": { "method": "GET", "url": "{{base_url}}/associations?productId={{product_id}}" } },
+        { "name": "Filtrar associações por fornecedor", "request": { "method": "GET", "url": "{{base_url}}/associations?supplierId={{supplier_id}}" } },
+        { "name": "Desvincular associação", "request": { "method": "DELETE", "url": "{{base_url}}/associations/{{association_id}}" } }
+      ]
+    }
+  ]
+}

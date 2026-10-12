@@ -1,0 +1,31 @@
+{
+  "name": "projeto-integrador",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de gestão de produtos, fornecedores e associações",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "node --watch backend/server.js",
+    "dev:client": "vite --config frontend/vite.config.js",
+    "build": "vite build --config frontend/vite.config.js",
+    "start": "node backend/server.js",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "lucide-react": "^1.55.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}
