@@ -8,3 +8,4 @@ data/*.sqlite-wal
 test-results/
 playwright-report/
 .DS_Store
+.netlify/

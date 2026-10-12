@@ -52,12 +52,12 @@ async function serveStatic(request, response, pathname, staticDirectory) {
   response.end(request.method === 'HEAD' ? undefined : body);
 }
 
-export function createApp({ database, staticDirectory = defaultStaticDirectory }) {
+export function createRequestHandler({ database, staticDirectory = defaultStaticDirectory }) {
   const products = createProductController(database);
   const suppliers = createSupplierController(database);
   const associations = createAssociationController(database, products, suppliers);
 
-  return createServer(async (request, response) => {
+  return async (request, response) => {
     try {
       const url = new URL(request.url, 'http://localhost');
       const pathname = url.pathname.replace(/\/$/, '') || '/';
@@ -111,5 +111,9 @@ export function createApp({ database, staticDirectory = defaultStaticDirectory }
     } catch (error) {
       handleError(response, error);
     }
-  });
+  };
+}
+
+export function createApp(options) {
+  return createServer(createRequestHandler(options));
 }

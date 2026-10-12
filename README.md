@@ -55,6 +55,10 @@ A interface e a API ficam disponíveis no mesmo servidor: **http://127.0.0.1:300
 
 ## Configuração
 
+Na Netlify, `netlify.toml` publica a interface em `dist` e a função `netlify/functions/api.mjs` atende às rotas `/api/*`. O banco SQLite começa vazio e é salvo no armazenamento persistente Netlify Blobs. A aplicação local e a aplicação publicada usam bancos separados. Não é necessário cadastrar senhas ou tokens na interface para acessar a API.
+
+O armazenamento usa consistência forte e gravações condicionais para preservar alterações simultâneas. Esta configuração é destinada ao volume de dados de um projeto acadêmico: cada alteração salva o arquivo SQLite completo. Os registros continuam disponíveis em novas execuções e publicações do mesmo projeto Netlify.
+
 As configurações padrão são suficientes para execução local. Para alterá-las, copie `.env.example` para `.env`:
 
 ```powershell
